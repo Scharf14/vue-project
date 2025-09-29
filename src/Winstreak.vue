@@ -1,13 +1,16 @@
 <script setup>
 import {ref} from 'vue'
 
-const winstreak = ref(0);
+const props = defineProps({
+  winStreak: Number
+})
+
 </script>
 
 <template>
   <div class="win-container">
     <div>
-      <p>Винстрик: {{ winstreak }}</p>
+      <p>Винстрик: {{ winStreak }}</p>
     </div>
   </div>
 </template>

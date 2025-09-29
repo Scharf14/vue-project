@@ -1,11 +1,14 @@
 <script setup>
 import {ref} from 'vue'
-//Нужно заоплнить варианты названиями
-//Чтобы заполнить варинаты ответов, нужно получить их из таблицы. 1 верное, остальные случайные
+
+const props = defineProps({
+
+})
+
 const emit = defineEmits(['answer'])
-function a() {
+/* Получаем ответ, в родителе сравниваем с правильным ответом, даем результат */
+function sendAnswer() {
   emit('answer')
-  console.log()
 }
 
 </script>
@@ -13,50 +16,76 @@ function a() {
 <template>
   <div class="options-container">
     <div class="main-bar">
-      <p>Варианты ответа</p>
+     <h2>Варианты ответа</h2>
       <div class="answers">
-        <p @click="a">вариант 1</p>
-        <p @click="a">вариант 2</p>
-        <p @click="a">вариант 3</p>
+        <! Нужно отправить выбранный ответ и сопоставить его с эмодзи в родителе-->
+        <button @click="sendAnswer">Вариант 1</button>
+        <button @click="sendAnswer">Вариант 2</button>
+        <button @click="sendAnswer">Вариант 3</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+
 .options-container {
-  margin-top: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 0 20px;
+  font-family: 'Arial', sans-serif;
 }
 
 .main-bar {
-  background: #EE9B01;
-  width: 60%;
-  height: 300px;
-  text-align: center;
-  border-radius: 30px;
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #68904D;
 }
 
-.main-bar > p {
-  padding-top: 50px;
-  font-size: 30px;
-  font-weight: 500;
+.main-bar h2 {
+  margin: 0 0 25px 0;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  color: #68904D;
 }
 
 .answers {
   display: flex;
-  justify-content: space-around;
-  margin-top: 90px;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.answers p {
-  background: #68904D;
-  width: 200px;
-  height: 30px;
-  border-radius: 10px;
+.answers button {
+  display: block;
+  width: 100%;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #f8f9fa;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid cadetblue;
+}
 
+.answers button:hover {
+  background: #68904D;
+  color: white;
+  transform: translateX(5px);
+}
+
+.answers button:active {
+  transform: translateX(2px);
+}
+
+.answers button:focus-visible {
+  outline: 2px solid #EE9B01;
+  outline-offset: 2px;
 }
 
 

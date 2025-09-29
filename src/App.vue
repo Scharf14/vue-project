@@ -28,44 +28,73 @@ const users = ref([
   {id: 0, avatar_path: '...', name: '..', exp: 100}
 ])
 
-function createPost(a, b) {
-  console.log(a, b)
-}
-function increment() {
+const rand = Math.floor(Math.random() * films.value.length)
+
+const lvl = ref(0)
+const winStreak = ref(0)
+const filmNames = ref([])
+const emoji = ref(films.value[rand].emojies)
+
+function shuffleFilms() {
+
+  for(let i = 0; i <= 1; i++) {
+    let rand = Math.floor(Math.random() * films.value.length)
+    if((films.value[rand].emojies) !== emoji.value) {
+      filmNames.value.push(films.value[rand].name)
+    }
+
+  }
+  // filmNames.value.push(emoji.value)
+  console.log(films.value.find(film => films.value[rand].emojies === emoji))
 
 }
-//создать функцию, с помощью который мы будем выводить эмоции в зависимости от difficult_id.
-//Проблема теперь в том, что нужно как-то получить difficult_id.
 
-// function sendEmoji() {
-//   films.value.forEach((e, index) => {
-//     if(films[index].difficult_id)
-//   })
-// }
-const rand = Math.floor(Math.random()* films.value.length)
+shuffleFilms()
+console.log(filmNames.value)
+
+
+
+
+
 </script>
 
 <template>
   <div class="container">
-    <Layout>
+    <Layout
+        class="component-card layout"
+        :lvl="lvl"
+    >
 
     </Layout>
 
-    <Level>
+    <div class="stats-row">
+      <Level
+          class="component-card level"
+          :lvl="lvl"
+      >
 
-    </Level>
+      </Level>
 
-    <Winstreak>
+      <Winstreak
+          class="component-card winstreak"
+          :winStreak="winStreak"
+      >
 
-    </Winstreak>
+      </Winstreak>
+    </div>
 
-    <Emoji :emoji="films[rand].emojies">
+    <Emoji
+        :emoji="emoji"
+        class="component-card emoji-container"
+    />
 
-    </Emoji>
+    <AnswerOptions
+        class="component-card answer-options"
 
-    <AnswerOptions>
+    >
 
     </AnswerOptions>
+
   </div>
 </template>
 
@@ -73,12 +102,83 @@ const rand = Math.floor(Math.random()* films.value.length)
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
 }
 
 .container {
-  background: #f5f3ef;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+/* Общий стиль для всех компонентов */
+.component-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e5e9;
+}
+
+/* Специфичные стили для каждого компонента */
+.layout {
+  background: linear-gradient(135deg, cadetblue 0%, #5f9ea0 100%);
+  color: white;
+  text-align: center;
+}
+
+.level {
+  background: #68904D;
+  color: white;
+  font-weight: bold;
+}
+
+.winstreak {
+  background: #EE9B01;
+  color: white;
+  font-weight: bold;
+}
+
+.emoji-container {
+  text-align: center;
+  font-size: 3rem;
+  background: #f8f9fa;
+  border: 2px dashed #68904D;
+}
+
+/* Стили для вариантов ответов */
+.answer-options {
+  background: white;
+}
+
+/* Состояния для правильных/неправильных ответов */
+.correct {
+  border: 3px solid #68904D;
+  background: #f0f9f0;
+}
+
+.incorrect {
+  border: 3px solid #dc3545;
+  background: #fdf2f2;
+}
+
+.feedback {
+  text-align: center;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.feedback.correct {
+  color: #68904D;
+  background: #f0f9f0;
+}
+
+.feedback.incorrect {
+  color: #dc3545;
+  background: #fdf2f2;
 }
 </style>
 
