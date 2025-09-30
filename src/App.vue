@@ -30,31 +30,32 @@ const users = ref([
 
 const rand = Math.floor(Math.random() * films.value.length)
 
+//Добавить в localstorage
 const lvl = ref(0)
 const winStreak = ref(0)
-const filmNames = ref([])
-const emoji = ref(films.value[rand].emojies)
 
-function shuffleFilms() {
+const correctFilm = films.value[rand]
+const emoji = ref(correctFilm.emojies)
 
-  for(let i = 0; i <= 1; i++) {
-    let rand = Math.floor(Math.random() * films.value.length)
-    if((films.value[rand].emojies) !== emoji.value) {
-      filmNames.value.push(films.value[rand].name)
+console.log('Правильный фильм:', correctFilm.name)
+console.log('Эмодзи:', emoji.value)
+
+const createAnswerOptions = function createAnswerOptions() {
+  const answerOptions = []
+  answerOptions.push(correctFilm.name)
+
+  while (answerOptions.length < 3) {
+    const randomIndex = Math.floor(Math.random() * films.value.length)
+    const wrongFilm = films.value[randomIndex]
+
+    if (wrongFilm.name !== correctFilm.name && !answerOptions.includes(wrongFilm.name)) {
+      answerOptions.push(wrongFilm.name)
     }
-
   }
-  // filmNames.value.push(emoji.value)
-  console.log(films.value.find(film => films.value[rand].emojies === emoji))
-
+  return answerOptions
 }
 
-shuffleFilms()
-console.log(filmNames.value)
-
-
-
-
+console.log(createAnswerOptions())
 
 </script>
 
