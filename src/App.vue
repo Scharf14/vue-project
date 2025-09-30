@@ -40,11 +40,11 @@ const emoji = ref(correctFilm.emojies)
 console.log('Правильный фильм:', correctFilm.name)
 console.log('Эмодзи:', emoji.value)
 
-const createAnswerOptions = function createAnswerOptions() {
+function createAnswerOptions() {
   const answerOptions = []
-  answerOptions.push(correctFilm.name)
 
-  while (answerOptions.length < 3) {
+
+  while (answerOptions.length < 2) {
     const randomIndex = Math.floor(Math.random() * films.value.length)
     const wrongFilm = films.value[randomIndex]
 
@@ -52,11 +52,22 @@ const createAnswerOptions = function createAnswerOptions() {
       answerOptions.push(wrongFilm.name)
     }
   }
+  const randomAnswerOptions = Math.floor(Math.random() * films.value.length)
+  answerOptions.splice(randomAnswerOptions, 0, correctFilm.name)
   return answerOptions
 }
 
-console.log(createAnswerOptions())
+const answerOptions = createAnswerOptions()
+console.log(answerOptions)
+// function shuffle() {
+//   const rand = Math.floor(Math.random() * answerOptions.length)
+//   console.log(answerOptions)
+// }
+// shuffle()
 
+//ну давай по другому, берешь рандомное число в пределах длины массива, вставляешь правильный ответ на это место.
+// Если правильный ответ стал крайним - ничего больше можно не менять, если нет, то можно рандомно либо элемент,
+// который в конце, перемещать на 1 место, либо наоборот
 </script>
 
 <template>
@@ -91,7 +102,7 @@ console.log(createAnswerOptions())
 
     <AnswerOptions
         class="component-card answer-options"
-
+        :answerOptions="answerOptions"
     >
 
     </AnswerOptions>

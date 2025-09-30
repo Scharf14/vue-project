@@ -2,26 +2,18 @@
 import {ref} from 'vue'
 
 const props = defineProps({
-
+  answerOptions: Array
 })
 
-const emit = defineEmits(['answer'])
-/* Получаем ответ, в родителе сравниваем с правильным ответом, даем результат */
-function sendAnswer() {
-  emit('answer')
-}
 
 </script>
 
 <template>
   <div class="options-container">
     <div class="main-bar">
-     <h2>Варианты ответа</h2>
+      <h2>Варианты ответа</h2>
       <div class="answers">
-        <! Нужно отправить выбранный ответ и сопоставить его с эмодзи в родителе-->
-        <button @click="sendAnswer">Вариант 1</button>
-        <button @click="sendAnswer">Вариант 2</button>
-        <button @click="sendAnswer">Вариант 3</button>
+        <button v-for="answers in answerOptions"> {{ answers }}</button>
       </div>
     </div>
   </div>
