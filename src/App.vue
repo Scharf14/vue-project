@@ -9,12 +9,12 @@ import Emoji from './Emoji.vue'
 const films = ref([
   {id: 0, film_file_path: '...', difficult_id: 1, name: 'Титаник', emojies: '🚢🧊💔'},
   {id: 1, film_file_path: '...', difficult_id: 1, name: 'Гарри Подтёр', emojies: '🧙‍♂️⚡️👓'},
-  {id: 2, film_file_path: '...', difficult_id: 1, name: 'Принцесса и лягушка', emojies: '👸🐸💋'},
+  {id: 2, film_file_path: '...', difficult_id: 2, name: 'Принцесса и лягушка', emojies: '👸🐸💋'},
   {id: 3, film_file_path: '...', difficult_id: 2, name: 'Одержимость', emojies: '🥁🔥'},
   {id: 4, film_file_path: '...', difficult_id: 1, name: 'Кунг-фу панда', emojies: '🐼🥋🍜'},
-  {id: 5, film_file_path: '...', difficult_id: 1, name: 'Алладин', emojies: '🧞‍♂️🔮🌴'},
-  {id: 6, film_file_path: '...', difficult_id: 1, name: 'Рататуй', emojies: '🐀👦🍳'},
-  {id: 7, film_file_path: '...', difficult_id: 1, name: 'В поисках Немо', emojies: '🐠🐟🔍'},
+  {id: 5, film_file_path: '...', difficult_id: 3, name: 'Алладин', emojies: '🧞‍♂️🔮🌴'},
+  {id: 6, film_file_path: '...', difficult_id: 3, name: 'Рататуй', emojies: '🐀👦🍳'},
+  {id: 7, film_file_path: '...', difficult_id: 2, name: 'В поисках Немо', emojies: '🐠🐟🔍'},
   {id: 8, film_file_path: '...', difficult_id: 2, name: 'Один дома', emojies: '👦🏠✈️'},
   {id: 9, film_file_path: '...', difficult_id: 3, name: 'Трое в лодке, не считая собаки', emojies: '3️⃣🚣🐕'},
   {id: 10, film_file_path: '...', difficult_id: 1, name: 'Охотники за привидениями', emojies: '👻🚫'},
@@ -88,9 +88,18 @@ function changeFilm(answer) {
   emoji.value = correctFilm.value.emojies
   answerOptions.value = createAnswerOptions()
   console.log(progress.value.winStreak)
-
 }
 
+function setNextLevel() {
+  if (progress.value.winStreak === 3) {
+    progress.value.lvl++
+    progress.value.winStreak = 0
+  }
+  if (progress.value.lvl === 4) {
+    alert('вы достигли максимального уровня')
+    progress.value.lvl = 0
+  }
+}
 
 </script>
 
@@ -128,6 +137,7 @@ function changeFilm(answer) {
         class="component-card answer-options"
         :answerOptions="answerOptions"
         @sendAnswer="changeFilm"
+        @upLevel="setNextLevel"
 
     >
 

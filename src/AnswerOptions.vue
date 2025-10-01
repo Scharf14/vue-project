@@ -5,10 +5,11 @@ const props = defineProps({
   answerOptions: Array
 })
 
-const emit = defineEmits(['sendAnswer', 'updateEmoji'])
+const emit = defineEmits(['sendAnswer', 'upLevel'])
 
 function sendData(answer) {
   emit('sendAnswer', answer)
+  emit('upLevel')
 }
 
 
