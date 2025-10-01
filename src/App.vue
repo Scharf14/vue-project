@@ -70,13 +70,14 @@ function createAnswerOptions() {
       answerOptions.push(wrongFilm.name)
     }
   }
-  const randomIndexOptions = Math.floor(Math.random() * films.value.length)
+  const randomIndexOptions = Math.floor(Math.random() * 3)
   answerOptions.splice(randomIndexOptions, 0, correctFilm.value.name)
-
   return answerOptions
 }
 
 const answerOptions = ref(createAnswerOptions())
+
+
 
 function changeFilm(answer) {
   if (answer === correctFilm.value.name) {
