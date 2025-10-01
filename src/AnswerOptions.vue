@@ -9,7 +9,6 @@ const emit = defineEmits(['sendAnswer', 'updateEmoji'])
 
 function sendData(answer) {
   emit('sendAnswer', answer)
-  emit('updateEmoji')
 }
 
 

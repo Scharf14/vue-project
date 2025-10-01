@@ -11,22 +11,32 @@ const films = ref([
   {id: 1, film_file_path: '...', difficult_id: 1, name: 'Гарри Подтёр', emojies: '🧙‍♂️⚡️👓'},
   {id: 2, film_file_path: '...', difficult_id: 1, name: 'Принцесса и лягушка', emojies: '👸🐸💋'},
   {id: 3, film_file_path: '...', difficult_id: 2, name: 'Одержимость', emojies: '🥁🔥'},
-  {id: 4, film_file_path: '...', difficult_id: 2, name: 'Кунг-фу панда', emojies: '🐼🥋🍜'},
-  {id: 5, film_file_path: '...', difficult_id: 2, name: 'Алладин', emojies: '🧞‍♂️🔮🌴'},
-  {id: 6, film_file_path: '...', difficult_id: 3, name: 'Рататуй', emojies: '🐀👦🍳'},
-  {id: 7, film_file_path: '...', difficult_id: 3, name: 'В поисках Немо', emojies: '🐠🐟🔍'},
-  {id: 8, film_file_path: '...', difficult_id: 3, name: 'Один дома', emojies: '👦🏠✈️'},
+  {id: 4, film_file_path: '...', difficult_id: 1, name: 'Кунг-фу панда', emojies: '🐼🥋🍜'},
+  {id: 5, film_file_path: '...', difficult_id: 1, name: 'Алладин', emojies: '🧞‍♂️🔮🌴'},
+  {id: 6, film_file_path: '...', difficult_id: 1, name: 'Рататуй', emojies: '🐀👦🍳'},
+  {id: 7, film_file_path: '...', difficult_id: 1, name: 'В поисках Немо', emojies: '🐠🐟🔍'},
+  {id: 8, film_file_path: '...', difficult_id: 2, name: 'Один дома', emojies: '👦🏠✈️'},
+  {id: 9, film_file_path: '...', difficult_id: 3, name: 'Трое в лодке, не считая собаки', emojies: '3️⃣🚣🐕'},
+  {id: 10, film_file_path: '...', difficult_id: 1, name: 'Охотники за привидениями', emojies: '👻🚫'},
+  {id: 11, film_file_path: '...', difficult_id: 1, name: 'Крепкий орешек', emojies: '💪🥜'},
+  {id: 12, film_file_path: '...', difficult_id: 3, name: 'Достучаться до небес', emojies: '👊☁️'},
+  {id: 13, film_file_path: '...', difficult_id: 3, name: 'Молчание ягнят', emojies: '🔇🐑'},
+  {id: 14, film_file_path: '...', difficult_id: 3, name: 'Планета обезьян', emojies: '🌍🐒'},
+  {id: 15, film_file_path: '...', difficult_id: 3, name: 'В джазе только девушки', emojies: '🎺👩‍❤️‍👩'},
+  {id: 16, film_file_path: '...', difficult_id: 2, name: 'Пила', emojies: '🪚⚰️'},
+  {id: 17, film_file_path: '...', difficult_id: 2, name: 'Хороший, плохой, злой', emojies: '😇😈😠'},
+  {id: 18, film_file_path: '...', difficult_id: 2, name: 'Эдвард Руки-ножницы', emojies: '👦🏻👐🏻✂️'}
 ])
 
-const difficult = ref([
-  {id: 0, exp: 100, name: '...'}
-])
-const levels = ref([
-  {id: 0, name: '...', difficult_id: 0, winstreak: 0}
-])
-const users = ref([
-  {id: 0, avatar_path: '...', name: '..', exp: 100}
-])
+// const difficult = ref([
+//   {id: 0, exp: 100, name: '...'}
+// ])
+// const levels = ref([
+//   {id: 0, name: '...', difficult_id: 0, winstreak: 0}
+// ])
+// const users = ref([
+//   {id: 0, avatar_path: '...', name: '..', exp: 100}
+// ])
 
 const rand = Math.floor(Math.random() * films.value.length)
 
@@ -40,9 +50,13 @@ const progress = ref({
 // const localProgress = JSON.parse(localStorage.getItem('progress'))
 
 
-let correctFilm = films.value[rand]
-let emoji = ref(correctFilm.emojies)
+const correctFilm = ref(films.value[rand])
+const emoji = ref(correctFilm.value.emojies)
 
+function getRandomFilm() {
+  const randomIndex = Math.floor(Math.random() * films.value.length)
+  return films.value[randomIndex]
+}
 
 function createAnswerOptions() {
   const answerOptions = []
@@ -52,28 +66,30 @@ function createAnswerOptions() {
     const randomIndex = Math.floor(Math.random() * films.value.length)
     const wrongFilm = films.value[randomIndex]
 
-    if (wrongFilm.name !== correctFilm.name && !answerOptions.includes(wrongFilm.name)) {
+    if (wrongFilm.name !== correctFilm.value.name && !answerOptions.includes(wrongFilm.name)) {
       answerOptions.push(wrongFilm.name)
     }
   }
   const randomIndexOptions = Math.floor(Math.random() * films.value.length)
-  answerOptions.splice(randomIndexOptions, 0, correctFilm.name)
+  answerOptions.splice(randomIndexOptions, 0, correctFilm.value.name)
+
   return answerOptions
 }
 
 const answerOptions = ref(createAnswerOptions())
 
 function changeFilm(answer) {
-  if (answer === correctFilm.name) {
+  if (answer === correctFilm.value.name) {
     progress.value.winStreak++
-    answerOptions.value = createAnswerOptions()
   } else {
     progress.value.winStreak = 0
-    answerOptions.value = createAnswerOptions()
   }
+  correctFilm.value = getRandomFilm()
+  emoji.value = correctFilm.value.emojies
+  answerOptions.value = createAnswerOptions()
   console.log(progress.value.winStreak)
-}
 
+}
 
 
 </script>
