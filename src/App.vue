@@ -31,14 +31,18 @@ const users = ref([
 const rand = Math.floor(Math.random() * films.value.length)
 
 //Добавить в localstorage
-const lvl = ref(0)
-const winStreak = ref(0)
+const progress = ref({
+  lvl: 0,
+  winStreak: 0
+})
 
-const correctFilm = films.value[rand]
-const emoji = ref(correctFilm.emojies)
+// localStorage.setItem('progress', JSON.stringify(progress.value))
+// const localProgress = JSON.parse(localStorage.getItem('progress'))
 
-console.log('Правильный фильм:', correctFilm.name)
-console.log('Эмодзи:', emoji.value)
+
+let correctFilm = films.value[rand]
+let emoji = ref(correctFilm.emojies)
+
 
 function createAnswerOptions() {
   const answerOptions = []
@@ -52,29 +56,33 @@ function createAnswerOptions() {
       answerOptions.push(wrongFilm.name)
     }
   }
-  const randomAnswerOptions = Math.floor(Math.random() * films.value.length)
-  answerOptions.splice(randomAnswerOptions, 0, correctFilm.name)
+  const randomIndexOptions = Math.floor(Math.random() * films.value.length)
+  answerOptions.splice(randomIndexOptions, 0, correctFilm.name)
   return answerOptions
 }
 
-const answerOptions = createAnswerOptions()
-console.log(answerOptions)
-// function shuffle() {
-//   const rand = Math.floor(Math.random() * answerOptions.length)
-//   console.log(answerOptions)
-// }
-// shuffle()
+const answerOptions = ref(createAnswerOptions())
 
-//ну давай по другому, берешь рандомное число в пределах длины массива, вставляешь правильный ответ на это место.
-// Если правильный ответ стал крайним - ничего больше можно не менять, если нет, то можно рандомно либо элемент,
-// который в конце, перемещать на 1 место, либо наоборот
+function changeFilm(answer) {
+  if (answer === correctFilm.name) {
+    progress.value.winStreak++
+    answerOptions.value = createAnswerOptions()
+  } else {
+    progress.value.winStreak = 0
+    answerOptions.value = createAnswerOptions()
+  }
+  console.log(progress.value.winStreak)
+}
+
+
+
 </script>
 
 <template>
   <div class="container">
     <Layout
         class="component-card layout"
-        :lvl="lvl"
+        :lvl="progress.lvl"
     >
 
     </Layout>
@@ -82,27 +90,29 @@ console.log(answerOptions)
     <div class="stats-row">
       <Level
           class="component-card level"
-          :lvl="lvl"
+          :lvl="progress.lvl"
       >
 
       </Level>
 
       <Winstreak
           class="component-card winstreak"
-          :winStreak="winStreak"
+          :winStreak="progress.winStreak"
       >
 
       </Winstreak>
     </div>
 
     <Emoji
-        :emoji="emoji"
         class="component-card emoji-container"
+        :emoji="emoji"
     />
 
     <AnswerOptions
         class="component-card answer-options"
         :answerOptions="answerOptions"
+        @sendAnswer="changeFilm"
+
     >
 
     </AnswerOptions>

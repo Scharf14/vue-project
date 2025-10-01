@@ -5,6 +5,14 @@ const props = defineProps({
   answerOptions: Array
 })
 
+const emit = defineEmits(['sendAnswer', 'updateEmoji'])
+
+function sendData(answer) {
+  emit('sendAnswer', answer)
+  emit('updateEmoji')
+}
+
+
 
 </script>
 
@@ -13,7 +21,12 @@ const props = defineProps({
     <div class="main-bar">
       <h2>Варианты ответа</h2>
       <div class="answers">
-        <button v-for="answers in answerOptions"> {{ answers }}</button>
+        <button
+            v-for="answer in answerOptions"
+            @click="sendData(answer)"
+        >
+          {{ answer }}
+        </button>
       </div>
     </div>
   </div>
