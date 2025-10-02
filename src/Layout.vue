@@ -1,6 +1,7 @@
 <script setup>
 const props = defineProps({
-  lvl: Number
+  lvlUser: Number,
+  exp: Number
 })
 </script>
 
@@ -9,7 +10,9 @@ const props = defineProps({
     <nav>
       <ul>
         <li>
-          <div class="lvl"> Уровень: {{ lvl }}</div>
+          <div class="exp"> Кол-во exp: {{ exp }}</div>
+          <br>
+          <div class="lvl"> Уровень: {{ lvlUser }}</div>
         </li>
         <li><a href="#"><img src="../public/favicon.ico" alt=""></a></li>
       </ul>
@@ -42,7 +45,11 @@ img {
   border-radius: 10px;
 }
 
-.lvl {
+.exp {
+  text-align: left;
+}
 
+.lvl {
+  text-align: left;
 }
 </style>

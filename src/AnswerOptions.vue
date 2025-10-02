@@ -5,11 +5,18 @@ const props = defineProps({
   answerOptions: Array
 })
 
-const emit = defineEmits(['sendAnswer', 'upLevel'])
+const emit = defineEmits(['sendAnswer', 'upLevel', 'addExp'])
 
 function sendData(answer) {
   emit('sendAnswer', answer)
+}
+
+function upLevel() {
   emit('upLevel')
+}
+
+function addExp(answer) {
+  emit('addExp', answer)
 }
 
 
@@ -23,7 +30,7 @@ function sendData(answer) {
       <div class="answers">
         <button
             v-for="answer in answerOptions"
-            @click="sendData(answer)"
+            @click="addExp(answer);sendData(answer);upLevel()"
         >
           {{ answer }}
         </button>

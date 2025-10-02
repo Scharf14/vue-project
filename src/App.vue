@@ -7,47 +7,44 @@ import Layout from './Layout.vue';
 import Emoji from './Emoji.vue'
 
 const films = ref([
-  {id: 0, film_file_path: '...', difficult_id: 1, name: 'Титаник', emojies: '🚢🧊💔'},
-  {id: 1, film_file_path: '...', difficult_id: 1, name: 'Гарри Подтёр', emojies: '🧙‍♂️⚡️👓'},
-  {id: 2, film_file_path: '...', difficult_id: 2, name: 'Принцесса и лягушка', emojies: '👸🐸💋'},
-  {id: 3, film_file_path: '...', difficult_id: 2, name: 'Одержимость', emojies: '🥁🔥'},
+  {id: 0, film_file_path: '...', difficult_id: 0, name: 'Титаник', emojies: '🚢🧊💔'},
+  {id: 1, film_file_path: '...', difficult_id: 0, name: 'Гарри Подтёр', emojies: '🧙‍♂️⚡️👓'},
+  {id: 2, film_file_path: '...', difficult_id: 0, name: 'Принцесса и лягушка', emojies: '👸🐸💋'},
+  {id: 3, film_file_path: '...', difficult_id: 1, name: 'Одержимость', emojies: '🥁🔥'},
   {id: 4, film_file_path: '...', difficult_id: 1, name: 'Кунг-фу панда', emojies: '🐼🥋🍜'},
-  {id: 5, film_file_path: '...', difficult_id: 3, name: 'Алладин', emojies: '🧞‍♂️🔮🌴'},
-  {id: 6, film_file_path: '...', difficult_id: 3, name: 'Рататуй', emojies: '🐀👦🍳'},
+  {id: 5, film_file_path: '...', difficult_id: 1, name: 'Алладин', emojies: '🧞‍♂️🔮🌴'},
+  {id: 6, film_file_path: '...', difficult_id: 1, name: 'Рататуй', emojies: '🐀👦🍳'},
   {id: 7, film_file_path: '...', difficult_id: 2, name: 'В поисках Немо', emojies: '🐠🐟🔍'},
   {id: 8, film_file_path: '...', difficult_id: 2, name: 'Один дома', emojies: '👦🏠✈️'},
-  {id: 9, film_file_path: '...', difficult_id: 3, name: 'Трое в лодке, не считая собаки', emojies: '3️⃣🚣🐕'},
-  {id: 10, film_file_path: '...', difficult_id: 1, name: 'Охотники за привидениями', emojies: '👻🚫'},
-  {id: 11, film_file_path: '...', difficult_id: 1, name: 'Крепкий орешек', emojies: '💪🥜'},
+  {id: 9, film_file_path: '...', difficult_id: 2, name: 'Трое в лодке, не считая собаки', emojies: '3️⃣🚣🐕'},
+  {id: 10, film_file_path: '...', difficult_id: 2, name: 'Охотники за привидениями', emojies: '👻🚫'},
+  {id: 11, film_file_path: '...', difficult_id: 3, name: 'Крепкий орешек', emojies: '💪🥜'},
   {id: 12, film_file_path: '...', difficult_id: 3, name: 'Достучаться до небес', emojies: '👊☁️'},
   {id: 13, film_file_path: '...', difficult_id: 3, name: 'Молчание ягнят', emojies: '🔇🐑'},
   {id: 14, film_file_path: '...', difficult_id: 3, name: 'Планета обезьян', emojies: '🌍🐒'},
-  {id: 15, film_file_path: '...', difficult_id: 3, name: 'В джазе только девушки', emojies: '🎺👩‍❤️‍👩'},
-  {id: 16, film_file_path: '...', difficult_id: 2, name: 'Пила', emojies: '🪚⚰️'},
-  {id: 17, film_file_path: '...', difficult_id: 2, name: 'Хороший, плохой, злой', emojies: '😇😈😠'},
-  {id: 18, film_file_path: '...', difficult_id: 2, name: 'Эдвард Руки-ножницы', emojies: '👦🏻👐🏻✂️'}
+  {id: 15, film_file_path: '...', difficult_id: 4, name: 'В джазе только девушки', emojies: '🎺👩‍❤️‍👩'},
+  {id: 16, film_file_path: '...', difficult_id: 4, name: 'Пила', emojies: '🪚⚰️'},
+  {id: 17, film_file_path: '...', difficult_id: 4, name: 'Хороший, плохой, злой', emojies: '😇😈😠'},
+  {id: 18, film_file_path: '...', difficult_id: 4, name: 'Эдвард Руки-ножницы', emojies: '👦🏻👐🏻✂️'}
 ])
-
-// const difficult = ref([
-//   {id: 0, exp: 100, name: '...'}
-// ])
-// const levels = ref([
-//   {id: 0, name: '...', difficult_id: 0, winstreak: 0}
-// ])
-// const users = ref([
-//   {id: 0, avatar_path: '...', name: '..', exp: 100}
-// ])
 
 const rand = Math.floor(Math.random() * films.value.length)
 
-//Добавить в localstorage
 const progress = ref({
-  lvl: 0,
-  winStreak: 0
+  lvlGame: 0,
+  lvlUser: 0,
+  winStreak: 0,
+  exp: 0
 })
 
-// localStorage.setItem('progress', JSON.stringify(progress.value))
-// const localProgress = JSON.parse(localStorage.getItem('progress'))
+const savedData = localStorage.getItem('progress')
+if (savedData) {
+  progress.value = JSON.parse(savedData)
+}
+
+function saveData() {
+  localStorage.setItem('progress', JSON.stringify(progress.value))
+}
 
 
 const correctFilm = ref(films.value[rand])
@@ -78,7 +75,6 @@ function createAnswerOptions() {
 const answerOptions = ref(createAnswerOptions())
 
 
-
 function changeFilm(answer) {
   if (answer === correctFilm.value.name) {
     progress.value.winStreak++
@@ -88,19 +84,54 @@ function changeFilm(answer) {
   correctFilm.value = getRandomFilm()
   emoji.value = correctFilm.value.emojies
   answerOptions.value = createAnswerOptions()
-  console.log(progress.value.winStreak)
+  saveData()
 }
 
-function setNextLevel() {
+function addExp(answer) {
+  const obj = {
+    0: 100,
+    1: 150,
+    2: 200,
+    3: 250,
+    4: 300
+  }
+  if (answer === correctFilm.value.name) {
+    progress.value.exp += obj[progress.value.lvlGame]
+  } else {
+    progress.value.exp -= obj[progress.value.lvlGame]
+  }
+  saveData()
+}
+
+function NextLevel() {
   if (progress.value.winStreak === 3) {
-    progress.value.lvl++
+    progress.value.lvlGame++
     progress.value.winStreak = 0
   }
-  if (progress.value.lvl === 4) {
-    alert('вы достигли максимального уровня')
-    progress.value.lvl = 0
+  if (progress.value.exp < 500) {
+    progress.value.lvlUser = 0
   }
+  if (progress.value.exp >= 500) {
+    progress.value.lvlUser = 1
+  }
+  if (progress.value.exp >= 1000) {
+    progress.value.lvlUser = 2
+  }
+  if (progress.value.exp >= 1500) {
+    progress.value.lvlUser = 3
+  }
+  if (progress.value.exp >= 2000) {
+    progress.value.lvlUser = 4
+  }
+  if (progress.value.lvlGame === 6) {
+    alert('вы достигли максимального уровня')
+    progress.value.lvlGame = 0
+    progress.value.exp = 0
+    progress.value.lvlUser = 0
+  }
+  saveData()
 }
+
 
 </script>
 
@@ -108,7 +139,8 @@ function setNextLevel() {
   <div class="container">
     <Layout
         class="component-card layout"
-        :lvl="progress.lvl"
+        :lvlUser="progress.lvlUser"
+        :exp="progress.exp"
     >
 
     </Layout>
@@ -116,7 +148,7 @@ function setNextLevel() {
     <div class="stats-row">
       <Level
           class="component-card level"
-          :lvl="progress.lvl"
+          :lvlGame="progress.lvlGame"
       >
 
       </Level>
@@ -138,7 +170,9 @@ function setNextLevel() {
         class="component-card answer-options"
         :answerOptions="answerOptions"
         @sendAnswer="changeFilm"
-        @upLevel="setNextLevel"
+        @upLevel="NextLevel"
+        @addExp="addExp"
+
 
     >
 

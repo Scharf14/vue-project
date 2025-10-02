@@ -1,10 +1,8 @@
 <script setup>
 import {ref} from 'vue'
-//нужно написать логику для вывода уровня
-//будет счетчик подед. После каждой победы + exp. if winstreak === 3. обнуляем счетчик и повышаем lvl
 
 const props = defineProps({
-  lvl: Number
+  lvlGame: Number
 })
 
 </script>
@@ -12,7 +10,7 @@ const props = defineProps({
 <template>
   <div class="levelContainer">
     <div>
-      <p>Уровень: {{ lvl }}</p>
+      <p>Уровень: {{ lvlGame }}</p>
     </div>
   </div>
 </template>
