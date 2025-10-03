@@ -46,22 +46,25 @@ function saveData() {
   localStorage.setItem('progress', JSON.stringify(progress.value))
 }
 
-
-const correctFilm = ref(films.value[rand])
-const emoji = ref(correctFilm.value.emojies)
+function getRandomFilmByUserLevel() {
+  const activeFilms = films.value.filter(film => film.difficult_id <= progress.value.lvlUser)
+  const randomIndex = Math.floor(Math.random() * activeFilms.length)
+  return activeFilms[randomIndex]
+}
 
 function getRandomFilm() {
   const randomIndex = Math.floor(Math.random() * films.value.length)
   return films.value[randomIndex]
 }
 
+const correctFilm = ref(getRandomFilmByUserLevel())
+const emoji = ref(correctFilm.value.emojies)
+
 function createAnswerOptions() {
   const answerOptions = []
 
-
   while (answerOptions.length < 2) {
-    const randomIndex = Math.floor(Math.random() * films.value.length)
-    const wrongFilm = films.value[randomIndex]
+    const wrongFilm = getRandomFilm()
 
     if (wrongFilm.name !== correctFilm.value.name && !answerOptions.includes(wrongFilm.name)) {
       answerOptions.push(wrongFilm.name)
@@ -74,14 +77,13 @@ function createAnswerOptions() {
 
 const answerOptions = ref(createAnswerOptions())
 
-
 function changeFilm(answer) {
   if (answer === correctFilm.value.name) {
     progress.value.winStreak++
   } else {
     progress.value.winStreak = 0
   }
-  correctFilm.value = getRandomFilm()
+  correctFilm.value = getRandomFilmByUserLevel()
   emoji.value = correctFilm.value.emojies
   answerOptions.value = createAnswerOptions()
   saveData()
@@ -104,6 +106,7 @@ function addExp(answer) {
 }
 
 function NextLevel() {
+  const oldLevel = progress.value.lvlUser
   if (progress.value.winStreak === 3) {
     progress.value.lvlGame++
     progress.value.winStreak = 0
@@ -123,6 +126,12 @@ function NextLevel() {
   if (progress.value.exp >= 2000) {
     progress.value.lvlUser = 4
   }
+  if (progress.value.lvlUser !== oldLevel) {
+    correctFilm.value = getRandomFilmByUserLevel()
+    emoji.value = correctFilm.value.emojies
+    answerOptions.value = createAnswerOptions()
+  }
+
   if (progress.value.lvlGame === 6) {
     alert('вы достигли максимального уровня')
     progress.value.lvlGame = 0
@@ -264,4 +273,3 @@ function NextLevel() {
   background: #fdf2f2;
 }
 </style>
-
